@@ -5,6 +5,11 @@
   "repository": "https://github.com/disney-parent-project/build-disney_parent-BE.git",
   "author": "Logan Hufstetler <logan.hufstetler@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "server": "nodemon index.js",
+    "start": "node index.js",
+    "test": "cross-env DB_ENV=testing jest --watch --verbose"
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "connect-session-knex": "^1.4.0",
