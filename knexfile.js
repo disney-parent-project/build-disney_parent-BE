@@ -3,7 +3,6 @@ const localPg = {
   host: "localhost",
   database: "disneyParents"
 };
-const productionDbConnection = process.env.DATABASE_URL || localPg;
 
 module.exports = {
   development: {
