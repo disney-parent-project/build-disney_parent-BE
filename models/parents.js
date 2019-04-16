@@ -28,9 +28,13 @@ function findById(id, database) {
     .first();
 }
 
-function findParents() {}
+function findParents() {
+  return db("parents").select("id", "username");
+}
 
-function findOrganizations() {}
+function findOrganizations() {
+  return db("organizations").select("id", "orgName");
+}
 
 // ***** Parents/Organizations filter *****
 function isParent(user) {
