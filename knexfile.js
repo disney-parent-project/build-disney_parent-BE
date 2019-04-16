@@ -46,7 +46,7 @@ module.exports = {
 
   production: {
     client: "sqlite3",
-    connection: productionDbConnection,
+    connection: "./database/disneyParents.db3",
     useNullAsDefault: true,
     pool: {
       afterCreate: (conn, done) => {
