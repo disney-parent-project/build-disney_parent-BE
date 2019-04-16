@@ -15,7 +15,15 @@ async function add(user) {
 }
 
 function findById(id, database) {
+  const column = function() {
+    if (database === "parents") {
+      return "username";
+    } else {
+      return "orgName";
+    }
+  };
   return db(database)
+    .select("id", column())
     .where({ id })
     .first();
 }
