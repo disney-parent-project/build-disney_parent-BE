@@ -45,7 +45,7 @@ module.exports = {
   },
 
   production: {
-    client: "pg",
+    client: "sqlite3",
     connection: productionDbConnection,
     useNullAsDefault: true,
     pool: {
