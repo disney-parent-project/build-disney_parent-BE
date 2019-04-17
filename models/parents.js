@@ -11,21 +11,25 @@ module.exports = {
 };
 
 async function add(user) {
-  const [id] = await db(isParent(user)).insert(user);
+  const [id] = await db(tableSelect(user.username)).insert(user);
 
-  return findById(id, isParent(user));
+  return findById(id, tableSelect(user.username));
 }
 
-function findBy(filter, database) {
+async function findBy(filter, client) {
+  console.log(filter, client);
+  const database = tableSelect(client);
+  console.log(database);
+  console.log({ [client]: filter });
   return db(database)
-    .where(filter)
+    .where({ [client]: filter })
     .first();
 }
 
 function findById(id, database) {
   const column = columnSelect(database);
   return db(database)
-    .select("id", column())
+    .select("id", column)
     .where({ id })
     .first();
 }
@@ -41,7 +45,13 @@ function findOrganizations() {
 // ***** Parents/Organizations filter *****
 function tableSelect(user) {
   if (user) {
-    return "parents";
+    if (user === "username") {
+      return "parents";
+    } else if (user === "orgName") {
+      return "organizations";
+    } else {
+      return "parents";
+    }
   } else {
     return "organizations";
   }

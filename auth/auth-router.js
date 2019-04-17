@@ -29,45 +29,39 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  const { username, orgName, password } = req.body;
-  console.log(username, orgName);
+  const creds = req.body;
+  console.log(creds.username, creds.orgName);
+  console.log(creds);
 
-  if ((username || orgName) && password) {
-    const database = Parents.tableSelect(function() {
-      if (username) {
-        return username;
+  if ((creds.username || creds.orgName) && creds.password) {
+    const client = (function() {
+      if (creds.username) {
+        return "username";
       } else {
-        return orgName;
+        return "orgName";
       }
-    });
+    })();
 
-    console.log(database);
+    console.log(client, "--directly after client");
 
     try {
-      const getUser = await Parents.findBy(function() {
-        if (username) {
-          return username;
-        } else {
-          return orgName;
-        }
-      }, database);
+      const getUser = await Parents.findBy(creds[client], client);
+      console.log(getUser, "--after getUser");
 
-      const credsCheck = bcrypt.compareSync(password, getUser.password);
-      if (getUser && credsCheck) {
-        const token = await tokenService.generateToken(getUser, database);
-        const loggedIn = function() {
-          if (username) {
-            return username;
-          } else {
-            return orgName;
-          }
-        };
-        res.status(200).json({
-          message: `Welcome ${loggedIn()}! Here is your token!`,
-          token
-        });
+      if (getUser) {
+        const credsCheck = bcrypt.compareSync(creds.password, getUser.password);
+        if (credsCheck) {
+          const token = await tokenService.generateToken(getUser, client);
+
+          res.status(200).json({
+            message: `Welcome ${creds[client]}! Here is your token!`,
+            token
+          });
+        } else {
+          res.status(404).json({ message: "Invalid Credentials" });
+        }
       } else {
-        res.status(404).json({ message: "Invalid Credentials" });
+        res.status(404).json({ message: "No record exists" });
       }
     } catch (err) {
       res.status(500).json({ err, message: "Server can't login right now." });
