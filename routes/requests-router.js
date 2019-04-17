@@ -8,7 +8,9 @@ const restricted = require("../auth/restricted-middleware.js");
 // ********** GET **********
 router.get("/", async (req, res) => {
   try {
-  } catch {}
+  } catch {
+    res.status(500).json({ message: "Server is broken :(" });
+  }
 });
 
 module.exports = router;

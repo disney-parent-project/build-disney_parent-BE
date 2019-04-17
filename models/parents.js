@@ -16,9 +16,13 @@ async function add(user) {
   return findById(id, tableSelect(user.username));
 }
 
-async function findBy(filter, database) {
+async function findBy(filter, client) {
+  console.log(filter, client);
+  const database = tableSelect(client);
+  console.log(database);
+  console.log({ [client]: filter });
   return db(database)
-    .where(filter)
+    .where({ [client]: filter })
     .first();
 }
 
@@ -40,9 +44,14 @@ function findOrganizations() {
 
 // ***** Parents/Organizations filter *****
 function tableSelect(user) {
-  console.log(user);
   if (user) {
-    return "parents";
+    if (user === "username") {
+      return "parents";
+    } else if (user === "orgName") {
+      return "organizations";
+    } else {
+      return "parents";
+    }
   } else {
     return "organizations";
   }
