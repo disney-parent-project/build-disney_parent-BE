@@ -7,7 +7,7 @@ module.exports = {
   generateToken
 };
 
-async function generateToken(user, database) {
+function generateToken(user, database) {
   const table = Parents.tableSelect(database);
   const column = Parents.columnSelect(table);
   const payload = {

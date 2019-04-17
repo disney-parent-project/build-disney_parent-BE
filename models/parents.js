@@ -17,10 +17,7 @@ async function add(user) {
 }
 
 async function findBy(filter, client) {
-  console.log(filter, client);
   const database = tableSelect(client);
-  console.log(database);
-  console.log({ [client]: filter });
   return db(database)
     .where({ [client]: filter })
     .first();

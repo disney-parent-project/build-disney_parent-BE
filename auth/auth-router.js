@@ -30,8 +30,6 @@ router.post("/register", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const creds = req.body;
-  console.log(creds.username, creds.orgName);
-  console.log(creds);
 
   if ((creds.username || creds.orgName) && creds.password) {
     const client = (function() {
@@ -42,11 +40,8 @@ router.post("/login", async (req, res) => {
       }
     })();
 
-    console.log(client, "--directly after client");
-
     try {
       const getUser = await Parents.findBy(creds[client], client);
-      console.log(getUser, "--after getUser");
 
       if (getUser) {
         const credsCheck = bcrypt.compareSync(creds.password, getUser.password);
