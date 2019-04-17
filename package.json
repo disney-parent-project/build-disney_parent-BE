@@ -1,5 +1,5 @@
 {
-  "name": "build-disney_parent-BE",
+  "name": "disney-parent-api",
   "version": "1.0.0",
   "main": "index.js",
   "repository": "https://github.com/disney-parent-project/build-disney_parent-BE.git",
