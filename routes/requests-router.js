@@ -6,7 +6,7 @@ const Requests = require("../models/requests.js");
 const restricted = require("../auth/restricted-middleware.js");
 
 // ********** GET **********
-router.get("/", async (req, res) => {
+router.get("/", restricted, async (req, res) => {
   try {
     const requests = await Requests.find();
     res.status(200).json(requests);
@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // ********** POST **********
-router.post("/", async (req, res) => {
+router.post("/", restricted, async (req, res) => {
   const request = req.body;
   if (
     request &&
