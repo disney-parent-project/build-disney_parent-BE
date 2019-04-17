@@ -33,7 +33,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("parents")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         req.time("atTime").notNullable();
@@ -52,7 +52,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("parents")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         res
@@ -61,7 +61,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("organizations")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         res
@@ -70,7 +70,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("requests")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         res.string("message", 128);
@@ -85,7 +85,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("parents")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         question
@@ -94,7 +94,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("organizations")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         question
@@ -103,7 +103,7 @@ exports.up = function(knex) {
           .notNullable()
           .references("id")
           .inTable("requests")
-          .onDelete("RESTRICT")
+          .onDelete("CASCADE")
           .onUpdate("CASCADE");
 
         question.string("message", 128).notNullable();

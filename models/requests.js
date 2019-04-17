@@ -4,7 +4,8 @@ module.exports = {
   find,
   findById,
   add,
-  change
+  change,
+  erase
 };
 
 function find() {
@@ -34,4 +35,10 @@ async function change(request) {
     });
 
   return findById(id);
+}
+
+function erase(id) {
+  return db("requests")
+    .where({ id })
+    .del();
 }

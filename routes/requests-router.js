@@ -77,4 +77,24 @@ router.put("/", restricted, async (req, res) => {
   }
 });
 
+// ********** DELETE **********
+router.delete("/", restricted, async (req, res) => {
+  const { id } = req.body;
+  console.log(id);
+  try {
+    const deleted = await Requests.erase(id);
+    if (deleted) {
+      res
+        .status(200)
+        .json({ message: "successfully deleted. Bye, bye birdie" });
+    } else {
+      res
+        .status(404)
+        .json({ message: "No record exists to delete...good job!" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: "server could not delete", err });
+  }
+});
+
 module.exports = router;
