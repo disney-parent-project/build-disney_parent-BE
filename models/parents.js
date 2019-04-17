@@ -4,8 +4,10 @@ module.exports = {
   add,
   findParents,
   findOrganizations,
+  findBy,
   findById,
-  isParent
+  tableSelect,
+  columnSelect
 };
 
 async function add(user) {
@@ -14,29 +16,41 @@ async function add(user) {
   return findById(id, isParent(user));
 }
 
+function findBy(filter, database) {
+  return db(database)
+    .where(filter)
+    .first();
+}
+
 function findById(id, database) {
-  const column = function() {
-    if (database === "parents") {
-      return "username";
-    } else {
-      return "orgName";
-    }
-  };
+  const column = columnSelect(database);
   return db(database)
     .select("id", column())
     .where({ id })
     .first();
 }
 
-function findParents() {}
+function findParents() {
+  return db("parents").select("id", "username");
+}
 
-function findOrganizations() {}
+function findOrganizations() {
+  return db("organizations").select("id", "orgName");
+}
 
 // ***** Parents/Organizations filter *****
-function isParent(user) {
-  if (user.username) {
+function tableSelect(user) {
+  if (user) {
     return "parents";
   } else {
     return "organizations";
+  }
+}
+
+function columnSelect(database) {
+  if (database === "parents") {
+    return "username";
+  } else {
+    return "orgName";
   }
 }
