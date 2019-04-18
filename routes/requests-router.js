@@ -15,6 +15,20 @@ router.get("/", restricted, async (req, res) => {
   }
 });
 
+router.get("/parent/:parentId", restricted, async (req, res) => {
+  const { parentId } = req.params;
+  if (parentId) {
+    try {
+      const parent = await Parents.findParentById(parentId);
+      res.status(200).json({ message: "Here is your parent!", parent });
+    } catch (err) {
+      res.status(500).json({ message: "Server can't get parent.", err });
+    }
+  } else {
+    res.status(400).json({ message: "Must provide a dyncamic parent id" });
+  }
+});
+
 // ********** POST **********
 router.post("/", restricted, async (req, res) => {
   const request = req.body;
