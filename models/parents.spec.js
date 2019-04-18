@@ -2,6 +2,7 @@ const db = require("../database/dbConfig.js");
 const Parents = require("./parents.js");
 
 describe("parents.js", () => {
+  // ********** add() **********
   describe("add()", () => {
     beforeEach(async () => {
       await db("parents").truncate();
@@ -38,6 +39,26 @@ describe("parents.js", () => {
 
       const org = await db("organizations");
       expect(org).toHaveLength(1);
+    });
+  });
+
+  // ********** findBy() **********
+  describe("findBy()", () => {
+    beforeEach(async () => {
+      await db("parents").truncate();
+      await db("organizations").truncate();
+    });
+    it("Return based on username or orgName", async () => {
+      await db("parents").insert({ username: "logan", password: "logan" });
+      await db("organizations").insert({
+        orgName: "business",
+        password: "pass"
+      });
+
+      const parent = await Parents.findBy("logan", "username");
+      const organization = await Parents.findBy("business", "orgName");
+      expect(parent).not.toBeUndefined();
+      expect(organization).not.toBeUndefined();
     });
   });
 });
