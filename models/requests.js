@@ -39,6 +39,6 @@ async function change(id, changes) {
 
 function erase(id) {
   return db("requests")
-    .where({ id: id })
+    .where({ id })
     .del();
 }

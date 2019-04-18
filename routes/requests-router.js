@@ -72,7 +72,6 @@ router.put("/:requestId", restricted, async (req, res) => {
   if (changes && changes.atLocation && changes.atTime && changes.num_kids) {
     try {
       const newRequest = await Requests.change(requestId, changes);
-      console.log(newRequest);
       if (newRequest) {
         res
           .status(201)
@@ -95,21 +94,24 @@ router.put("/:requestId", restricted, async (req, res) => {
 
 // ********** DELETE **********
 router.delete("/:requestId", restricted, async (req, res) => {
-  const id = req.body;
-  console.log(id);
-  try {
-    const deleted = await Requests.erase(id);
-    if (deleted) {
-      res
-        .status(200)
-        .json({ message: "successfully deleted. Bye, bye birdie" });
-    } else {
-      res
-        .status(404)
-        .json({ message: "No record exists to delete...good job!" });
+  const { requestId } = req.params;
+  if (requestId) {
+    try {
+      const deleted = await Requests.erase(requestId);
+      if (deleted) {
+        res
+          .status(200)
+          .json({ message: "successfully deleted. Bye, bye birdie" });
+      } else {
+        res
+          .status(404)
+          .json({ message: "No record exists to delete...good job!" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "server could not delete", err });
     }
-  } catch (err) {
-    res.status(500).json({ message: "server could not delete", err });
+  } else {
+    res.status(400).json({ message: "Please provide a dynamic request id." });
   }
 });
 
