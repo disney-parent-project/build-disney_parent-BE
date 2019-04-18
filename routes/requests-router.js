@@ -43,17 +43,12 @@ router.get("/parent/:parentId", restricted, async (req, res) => {
 });
 
 // ********** POST **********
-router.post("/", restricted, async (req, res) => {
+router.post("/:parentId", restricted, async (req, res) => {
   const request = req.body;
-  if (
-    request &&
-    request.parents_id &&
-    request.atLocation &&
-    request.atTime &&
-    request.num_kids
-  ) {
+  const { parentId } = req.params;
+  if (request && request.atLocation && request.atTime && request.num_kids) {
     try {
-      const newRequest = await Requests.add(request);
+      const newRequest = await Requests.add(parentId, request);
       res
         .status(201)
         .json({ message: "request made successfully", newRequest });
@@ -73,16 +68,10 @@ router.post("/", restricted, async (req, res) => {
 // ********** UPDATE **********
 router.put("/:requestId", restricted, async (req, res) => {
   const changes = req.body;
-  const id = req.params.requestId;
-  if (
-    changes &&
-    changes.parents_id &&
-    changes.atLocation &&
-    changes.atTime &&
-    changes.num_kids
-  ) {
+  const { requestId } = req.params;
+  if (changes && changes.atLocation && changes.atTime && changes.num_kids) {
     try {
-      const newRequest = await Requests.change(id);
+      const newRequest = await Requests.change(requestId, changes);
       console.log(newRequest);
       if (newRequest) {
         res
