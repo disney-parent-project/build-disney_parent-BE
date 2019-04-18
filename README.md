@@ -19,8 +19,11 @@ All endpoints from this point forward are protected.
 
 #### /requests
 
-| Method | Endpoint | Description                                                                                                                                                                                                                                          |
-| ------ | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| GET    | /        | Returns all of the requests in the database.                                                                                                                                                                                                         |
-| POST   | /        | Expects an object containing: {parents_id: integer, atLocation: string, atTime: HH:MM, num_kids: integer}. - parents_id should come from the parent that is logged in and making the request. - Organizations cannot make requests.                  |
-| PUT    | /        | Expects an object containing: {**id: integer**, parents_id: integer, atLocation: string, atTime: HH:MM, num_kids: integer}. - parents_id should come from the parent that is logged in and making the request. - Organizations cannot make requests. |
+| Method | Endpoint          | Description                                                                                                                                                                          |
+| ------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET    | /                 | Returns all of the requests in the database.                                                                                                                                         |
+| GET    | /parent           | Returns all parents.                                                                                                                                                                 |
+| GET    | /parent/:parentId | Use dynamic id to get a specific parent.                                                                                                                                             |
+| POST   | /:parentId        | Use dynamic id from logged in parent. Expects an object containing: {atLocation: string, atTime: HH:MM, num_kids: integer. <br />- Organizations cannot make requests.               |
+| PUT    | /:requestId       | Use dynamic id for specific request to update. Expects an object containing: {atLocation: "string", atTime: "HH:MM", num_kids: integer}. <br />- Organizations cannot make requests. |
+| DELETE | /requestId        | Use dynamic id to delete specific request.                                                                                                                                           |

@@ -2,6 +2,7 @@ const db = require("../database/dbConfig.js");
 
 module.exports = {
   add,
+  findParentById,
   findParents,
   findOrganizations,
   findBy,
@@ -33,6 +34,14 @@ function findById(id, database) {
 
 function findParents() {
   return db("parents").select("id", "username");
+}
+
+function findParentById(id) {
+  console.log({ id });
+  return db("parents")
+    .select("id", "username")
+    .where({ id })
+    .first();
 }
 
 function findOrganizations() {

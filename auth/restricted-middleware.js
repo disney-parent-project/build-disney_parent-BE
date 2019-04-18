@@ -13,7 +13,10 @@ module.exports = (req, res, next) => {
       } else {
         res
           .status(401)
-          .json({ message: "Invalid token. Token might be expired, re-login" });
+          .json({
+            message: "Invalid token. Token might be expired, re-login",
+            err
+          });
       }
     });
   } else {

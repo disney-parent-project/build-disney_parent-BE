@@ -15,18 +15,40 @@ router.get("/", restricted, async (req, res) => {
   }
 });
 
-// ********** POST **********
-router.post("/", restricted, async (req, res) => {
-  const request = req.body;
-  if (
-    request &&
-    request.parents_id &&
-    request.atLocation &&
-    request.atTime &&
-    request.num_kids
-  ) {
+router.get("/parent", restricted, async (req, res) => {
+  try {
+    const parents = await Parents.findParents();
+    res
+      .status(200)
+      .json({ message: "Successfully retrieved all parents", parents });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Server can't get the parents right now." });
+  }
+});
+
+router.get("/parent/:parentId", restricted, async (req, res) => {
+  const { parentId } = req.params;
+  if (parentId) {
     try {
-      const newRequest = await Requests.add(request);
+      const parent = await Parents.findParentById(parentId);
+      res.status(200).json({ message: "Here is your parent!", parent });
+    } catch (err) {
+      res.status(500).json({ message: "Server can't get parent.", err });
+    }
+  } else {
+    res.status(400).json({ message: "Must provide a dyncamic parent id" });
+  }
+});
+
+// ********** POST **********
+router.post("/:parentId", restricted, async (req, res) => {
+  const request = req.body;
+  const { parentId } = req.params;
+  if (request && request.atLocation && request.atTime && request.num_kids) {
+    try {
+      const newRequest = await Requests.add(parentId, request);
       res
         .status(201)
         .json({ message: "request made successfully", newRequest });
@@ -44,19 +66,12 @@ router.post("/", restricted, async (req, res) => {
 });
 
 // ********** UPDATE **********
-router.put("/", restricted, async (req, res) => {
+router.put("/:requestId", restricted, async (req, res) => {
   const changes = req.body;
-  if (
-    changes &&
-    changes.id &&
-    changes.parents_id &&
-    changes.atLocation &&
-    changes.atTime &&
-    changes.num_kids
-  ) {
+  const { requestId } = req.params;
+  if (changes && changes.atLocation && changes.atTime && changes.num_kids) {
     try {
-      const newRequest = await Requests.change(changes);
-      console.log(newRequest);
+      const newRequest = await Requests.change(requestId, changes);
       if (newRequest) {
         res
           .status(201)
@@ -74,6 +89,29 @@ router.put("/", restricted, async (req, res) => {
       message:
         "Need to have all elements of request. reference readme: https://github.com/disney-parent-project/build-disney_parent-BE"
     });
+  }
+});
+
+// ********** DELETE **********
+router.delete("/:requestId", restricted, async (req, res) => {
+  const { requestId } = req.params;
+  if (requestId) {
+    try {
+      const deleted = await Requests.erase(requestId);
+      if (deleted) {
+        res
+          .status(200)
+          .json({ message: "successfully deleted. Bye, bye birdie" });
+      } else {
+        res
+          .status(404)
+          .json({ message: "No record exists to delete...good job!" });
+      }
+    } catch (err) {
+      res.status(500).json({ message: "server could not delete", err });
+    }
+  } else {
+    res.status(400).json({ message: "Please provide a dynamic request id." });
   }
 });
 
