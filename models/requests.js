@@ -28,11 +28,9 @@ async function add(parentId, request) {
 }
 
 async function change(id, changes) {
-  console.log({ id }, { ...changes });
   const changed = await db("requests")
     .where({ id })
     .update({ ...changes });
-  console.log(changed);
 
   return findById(id);
 }
