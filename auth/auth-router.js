@@ -18,7 +18,8 @@ router.post("/register", async (req, res) => {
     } catch (err) {
       res.status(500).json({
         err,
-        message: "The server can't process a register right now."
+        message:
+          "The server is either broken, or you're username/orgName is not unique."
       });
     }
   } else {

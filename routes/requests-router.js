@@ -27,7 +27,6 @@ router.post("/", restricted, async (req, res) => {
   ) {
     try {
       const newRequest = await Requests.add(request);
-      console.log(newRequest);
       res
         .status(201)
         .json({ message: "request made successfully", newRequest });
