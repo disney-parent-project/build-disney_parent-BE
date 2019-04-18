@@ -24,21 +24,20 @@ async function add(request) {
   return findById(id);
 }
 
-async function change(request) {
-  const { id } = request;
+async function change(id) {
   const changed = await db("requests")
-    .where({ id })
+    .where({ id: id })
     .update({
       atLocation: request.atLocation,
       atTime: request.atTime,
       num_kids: request.num_kids
     });
 
-  return findById(id);
+  return findById({ id: id });
 }
 
 function erase(id) {
   return db("requests")
-    .where({ id })
+    .where({ id: id })
     .del();
 }

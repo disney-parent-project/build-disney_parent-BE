@@ -27,6 +27,7 @@ router.post("/", restricted, async (req, res) => {
   ) {
     try {
       const newRequest = await Requests.add(request);
+      console.log(newRequest);
       res
         .status(201)
         .json({ message: "request made successfully", newRequest });
@@ -44,18 +45,18 @@ router.post("/", restricted, async (req, res) => {
 });
 
 // ********** UPDATE **********
-router.put("/", restricted, async (req, res) => {
+router.put("/:requestId", restricted, async (req, res) => {
   const changes = req.body;
+  const id = req.params.requestId;
   if (
     changes &&
-    changes.id &&
     changes.parents_id &&
     changes.atLocation &&
     changes.atTime &&
     changes.num_kids
   ) {
     try {
-      const newRequest = await Requests.change(changes);
+      const newRequest = await Requests.change(id);
       console.log(newRequest);
       if (newRequest) {
         res
@@ -78,8 +79,8 @@ router.put("/", restricted, async (req, res) => {
 });
 
 // ********** DELETE **********
-router.delete("/", restricted, async (req, res) => {
-  const { id } = req.body;
+router.delete("/:requestId", restricted, async (req, res) => {
+  const id = req.body;
   console.log(id);
   try {
     const deleted = await Requests.erase(id);
