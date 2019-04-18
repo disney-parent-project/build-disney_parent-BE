@@ -12,9 +12,13 @@ module.exports = {
 };
 
 async function add(user) {
-  const [id] = await db(tableSelect(user.username)).insert(user);
-
-  return findById(id, tableSelect(user.username));
+  let [id] = [];
+  if (user.password) {
+    [id] = await db(tableSelect(user.username)).insert(user);
+    return findById(id, tableSelect(user.username));
+  } else {
+    return null;
+  }
 }
 
 async function findBy(filter, client) {
