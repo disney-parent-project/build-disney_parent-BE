@@ -15,6 +15,19 @@ router.get("/", restricted, async (req, res) => {
   }
 });
 
+router.get("/parent", restricted, async (req, res) => {
+  try {
+    const parents = await Parents.findParents();
+    res
+      .status(200)
+      .json({ message: "Successfully retrieved all parents", parents });
+  } catch (err) {
+    res
+      .status(500)
+      .json({ message: "Server can't get the parents right now." });
+  }
+});
+
 router.get("/parent/:parentId", restricted, async (req, res) => {
   const { parentId } = req.params;
   if (parentId) {
