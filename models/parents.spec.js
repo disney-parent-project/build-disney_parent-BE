@@ -57,8 +57,39 @@ describe("parents.js", () => {
 
       const parent = await Parents.findBy("logan", "username");
       const organization = await Parents.findBy("business", "orgName");
-      expect(parent).not.toBeUndefined();
-      expect(organization).not.toBeUndefined();
+      expect(parent).toEqual({ id: 1, username: "logan", password: "logan" });
+      expect(organization).toEqual({
+        id: 1,
+        orgName: "business",
+        password: "pass"
+      });
+    });
+  });
+
+  // ********** findById() **********
+  describe("findById()", () => {
+    beforeEach(async () => {
+      await db("parents").truncate();
+      await db("organizations").truncate();
+    });
+
+    it("Return a parent based on id", async () => {
+      await db("parents").insert({ username: "logan", password: "logan" });
+
+      const { id } = { id: 1 };
+      const parent = await Parents.findById(id, "parents");
+      expect(parent).toEqual({ id: 1, username: "logan" });
+    });
+
+    it("Return an organization based on id", async () => {
+      await db("organizations").insert({
+        orgName: "business",
+        password: "pass"
+      });
+
+      const { id } = { id: 1 };
+      const organization = await Parents.findById(id, "organizations");
+      expect(organization).toEqual({ id: 1, orgName: "business" });
     });
   });
 });

@@ -30,6 +30,7 @@ async function findBy(filter, client) {
 
 function findById(id, database) {
   const column = columnSelect(database);
+  console.log(id, database, column);
   return db(database)
     .select("id", column)
     .where({ id })
