@@ -4,7 +4,7 @@ https://disney-parent-api.herokuapp.com/api
 
 ## Authentication
 
-#### /parents
+#### https://disney-parent-api.herokuapp.com/api/parents
 
 | Method | Endpoint  | Description                                                                                                    |
 | ------ | --------- | -------------------------------------------------------------------------------------------------------------- |
@@ -17,13 +17,13 @@ All endpoints from this point forward are protected.
 
 - You must send back your login token on headers as "Authorization": \`\$\{token\}\` to access these.
 
-#### /requests
+#### https://disney-parent-api.herokuapp.com/api/requests
 
-| Method | Endpoint          | Description                                                                                                                                                                          |
-| ------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| GET    | /                 | Returns all of the requests in the database.                                                                                                                                         |
-| GET    | /parent           | Returns all parents.                                                                                                                                                                 |
-| GET    | /parent/:parentId | Use dynamic id to get a specific parent.                                                                                                                                             |
-| POST   | /:parentId        | Use dynamic id from logged in parent. Expects an object containing: {atLocation: string, atTime: HH:MM, num_kids: integer. <br />- Organizations cannot make requests.               |
-| PUT    | /:requestId       | Use dynamic id for specific request to update. Expects an object containing: {atLocation: "string", atTime: "HH:MM", num_kids: integer}. <br />- Organizations cannot make requests. |
-| DELETE | /requestId        | Use dynamic id to delete specific request.                                                                                                                                           |
+| Method | Endpoint          | Description                                                                                                                                                                                |
+| ------ | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| GET    | /                 | Returns all of the requests in the database.                                                                                                                                               |
+| GET    | /parent           | Returns all parents.                                                                                                                                                                       |
+| GET    | /parent/:parentId | Use dynamic id to get a specific parent.                                                                                                                                                   |
+| POST   | /:parentId        | Use dynamic id from logged in parent. Expects an object containing: <br />{atLocation: string, atTime: HH:MM, num_kids: integer. <br />- Organizations cannot make requests.               |
+| PUT    | /:requestId       | Use dynamic id for specific request to update. Expects an object containing: <br />{atLocation: "string", atTime: "HH:MM", num_kids: integer}. <br />- Organizations cannot make requests. |
+| DELETE | /:requestId       | Use dynamic id to delete specific request.                                                                                                                                                 |
